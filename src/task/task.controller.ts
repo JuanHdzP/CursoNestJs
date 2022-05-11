@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Body,
   Controller,
@@ -7,7 +8,9 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
@@ -16,6 +19,7 @@ import { Task } from './task.entity';
 import { TaskService } from './task.service';
 
 @Controller('tasks')
+@UseGuards(AuthGuard())
 export class TaskController {
   constructor(private tasksService: TaskService) {}
 
@@ -30,7 +34,7 @@ export class TaskController {
 
   @Get()
   getTasks(@Query() filterDto: GetTasksFilterDto): Promise<Task[]> {
-      return this.tasksService.getTasks(filterDto);
+    return this.tasksService.getTasks(filterDto);
   }
   //
   //@Get('/:id')
